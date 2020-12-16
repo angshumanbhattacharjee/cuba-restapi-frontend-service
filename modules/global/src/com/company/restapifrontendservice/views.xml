@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+
+    <view entity="restapifrontendservice_Order" name="order-view" extends="_local">
+        <property name="number"/>
+        <property name="items"/>
+        <property name="description"/>
+        <property name="date"/>
+    </view>
+</views>

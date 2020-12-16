@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://orderEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.restapifrontendservice.web.screens.order">
+    <data>
+        <instance id="orderDc"
+                  class="com.company.restapifrontendservice.entity.Order">
+            <view extends="_local">
+                <property name="number"/>
+                <property name="items"/>
+                <property name="description"/>
+                <property name="date"/>
+            </view>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="orderDc">
+            <column width="350px">
+                <textField id="numberField" property="number" caption="NUMBER"/>
+                <textField id="itemsField" property="items" caption="ITEMS"/>
+                <textField id="descriptionField" property="description" caption="DESCRIPTION"/>
+                <textField id="dateField" property="date" caption="DATE"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
