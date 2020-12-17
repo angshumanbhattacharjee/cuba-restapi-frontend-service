@@ -3,6 +3,7 @@
 
     <metadata-model root-package="com.company.restapifrontendservice" namespace="restapifrontendservice">
         <class>com.company.restapifrontendservice.entity.Order</class>
+        <class>com.company.restapifrontendservice.entity.OrderDummy</class>
     </metadata-model>
 
 </metadata>

@@ -1,6 +1,7 @@
 package com.company.restapifrontendservice.service;
 
 import com.company.restapifrontendservice.entity.Order;
+import com.company.restapifrontendservice.entity.OrderDummy;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.java.Log;
@@ -23,6 +24,7 @@ public class OrderServiceBean implements OrderService {
     RestTemplate restTemplate = new RestTemplate();
 
     ObjectMapper mapper = new ObjectMapper();
+
 
     /*
     * Method connects to backend service application using REST Template
@@ -56,7 +58,7 @@ public class OrderServiceBean implements OrderService {
                 }
             }
         } catch (Exception e) {
-            log.info("Error occurred while processing request: "+ e.getMessage());
+            log.info("Error occurred while processing request in getAllOrders method: "+ e.getMessage());
         }
         return orderObjects;
     }
@@ -68,22 +70,30 @@ public class OrderServiceBean implements OrderService {
      * @Returns Order entity object created in the database
      * */
     @Override
-    public Order createNewOrder(Order order) throws JsonProcessingException {
+    public Order createNewOrder(Order order1) throws JsonProcessingException {
         Map<String, Object> orderNameMap;
-        orderNameMap = prepareObject(order);
+        orderNameMap = prepareObject(order1);
         Object object = mapper.writeValueAsString(orderNameMap);
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>(object.toString(), header);
         Map<String, Object> map = new HashMap<>();
-        Order order2 = new Order();
+        OrderDummy orderDummy = new OrderDummy();
+        Order order = new Order();
         try {
             String restServiceUri = "http://localhost:8585/api/v2/order-service/createOrder";
-            order2 = restTemplate.postForObject(restServiceUri, request, Order.class);
+            orderDummy = restTemplate.postForObject(restServiceUri, request, OrderDummy.class);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+            LocalDate localDate = LocalDate.parse(orderDummy.getDate(), formatter);
+            order.setId(orderDummy.getOrderId());
+            order.setDate(localDate);
+            order.setNumber(orderDummy.getNumber());
+            order.setItems(orderDummy.getItems());
+            order.setDescription(orderDummy.getDescription());
         } catch (Exception e) {
-            log.info("Error occurred while processing request: "+ e.getMessage());
+            log.info("Error occurred while processing request in createNewOrder method: "+ e.getMessage());
         }
-        return order2;
+        return order;
     }
 
     /*
@@ -102,7 +112,7 @@ public class OrderServiceBean implements OrderService {
             String restServiceUri = "http://localhost:8585/api/v2/order-service/deleteOrderById";
             response = restTemplate.exchange(restServiceUri, HttpMethod.POST, request, String.class).getBody();
         } catch (Exception e) {
-            log.info("Error occurred while processing request: "+ e.getMessage());
+            log.info("Error occurred while processing request in deleteOrderByOrderId: "+ e.getMessage());
         }
         return response;
     }
