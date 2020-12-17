@@ -23,7 +23,8 @@
                 <textField id="numberField" property="number" caption="NUMBER"/>
                 <textField id="itemsField" property="items" caption="ITEMS"/>
                 <textField id="descriptionField" property="description" caption="DESCRIPTION"/>
-                <textField id="dateField" property="date" caption="DATE"/>
+                <dateField id="dateField" property="date" caption="DATE" datatype="localDate"/>
+                <!--                <datePicker id="dateField" property="date" caption="DATE" datatype="localDate"/>-->
             </column>
         </form>
         <hbox id="editActions" spacing="true">

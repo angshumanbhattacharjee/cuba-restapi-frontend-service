@@ -11,6 +11,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service(OrderService.NAME)
@@ -40,11 +43,13 @@ public class OrderServiceBean implements OrderService {
             if(response != null && !response.isEmpty()) {
                 int i=0;
                 for (Map<String, Object> entry : response) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+                    LocalDate localDate = LocalDate.parse((String) entry.get("date"), formatter);
                     Order order = new Order();
                     order.setId(UUID.fromString((String) entry.get("orderId")));
                     order.setNumber((String) entry.get("number"));
                     order.setItems((String) entry.get("items"));
-                    order.setDate((String) entry.get("date"));
+                    order.setDate(localDate);
                     order.setDescription((String) entry.get("description"));
                     orderObjects.add(i, order);
                     i++;
@@ -114,13 +119,13 @@ public class OrderServiceBean implements OrderService {
             orderNameMap.put("number", order.getNumber());
             orderNameMap.put("items", order.getItems());
             orderNameMap.put("description", order.getDescription());
-            orderNameMap.put("date", order.getDate());
+            orderNameMap.put("date", order.getDate().toString());
         }
         else {
             orderNameMap.put("number", order.getNumber());
             orderNameMap.put("items", order.getItems());
             orderNameMap.put("description", order.getDescription());
-            orderNameMap.put("date", order.getDate());
+            orderNameMap.put("date", order.getDate().toString());
         }
         log.info("Order Entity prepared for POST request");
         return orderNameMap;

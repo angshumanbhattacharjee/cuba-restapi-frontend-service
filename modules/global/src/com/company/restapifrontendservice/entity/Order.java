@@ -5,6 +5,8 @@ import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.BaseUuidEntity;
 
+import java.time.LocalDate;
+
 @MetaClass(name = "restapifrontendservice_Order")
 @NamePattern("%s|description")
 public class Order extends BaseUuidEntity {
@@ -21,13 +23,13 @@ public class Order extends BaseUuidEntity {
     private String description;
 
     @MetaProperty
-    private String date;
+    private LocalDate date;
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

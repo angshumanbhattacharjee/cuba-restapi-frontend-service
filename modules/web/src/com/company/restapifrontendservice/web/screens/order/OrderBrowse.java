@@ -22,7 +22,7 @@ import java.util.*;
 @Log4j
 public class OrderBrowse extends StandardLookup<Order> {
 
-    List<Order> orderList = new ArrayList<>();
+    List<Order> orderList = new LinkedList<>();
     @Inject
     OrderService orderService;
     @Inject
